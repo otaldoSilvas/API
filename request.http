@@ -1,5 +1,9 @@
 ### Rota para listar todos os alunos
 GET http://localhost:3001/api/aluno
+
+
+### Cadastrar aluno
+POST http://localhost:3001/api/aluno/cadastrar
 Content-Type: application/json
 
 {
