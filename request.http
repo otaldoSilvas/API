@@ -1,2 +1,10 @@
 ### Rota para listar todos os alunos
 GET http://localhost:3001/api/aluno
+Content-Type: application/json
+
+{
+    "nome": "João Silvas",
+    "notas": 85.5,
+    "email": "joao.silva@gmail.com",
+    "senha": "12345678"
+}
