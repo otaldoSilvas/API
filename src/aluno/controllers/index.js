@@ -6,7 +6,7 @@ const listar = async (requisicao, resposta) => {
     const alunos = await Aluno.findAll();
     resposta.status(200).json(alunos);
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao listar os alunos!" });
+    resposta.status(500).json({ error: "Erro ao listar os alunos!", detalhes: error.message});
   }
 };
 // Cadastrar alunos - create
@@ -16,7 +16,7 @@ const criar = async (requisicao, resposta) => {
     const novoAluno = await Aluno.create({ nome, email, notas, senha });
     resposta.status(201).json(novoAluno);
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao cadastrar aluno!" });
+    resposta.status(500).json({ error: "Erro ao cadastrar aluno!", detalhes: error.message });
   }
 };
 
@@ -32,7 +32,7 @@ const atualizar = async (requisicao, resposta) => {
     await aluno.update({ nome, email, notas, senha });
     resposta.status(200).json(aluno);
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao atualizar aluno!" });
+    resposta.status(500).json({ error: "Erro ao atualizar aluno!", detalhes: error.message });
   }
 };
 
@@ -47,7 +47,7 @@ const deletar = async (requisicao, resposta) => {
     await aluno.destroy();
     resposta.status(200).json({ msg: "Usuario deletado com sucesso" });
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao excluir aluno" });
+    resposta.status(500).json({ error: "Erro ao excluir aluno", detalhes: error.message });
   }
 };
 
@@ -56,7 +56,7 @@ const deletarTodos = async (requisicao, resposta) => {
     await Aluno.destroyAll();
     resposta.status(200).json({ msg: "Todos os alunos foram excluidos!" });
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao excluir os alunos!" });
+    resposta.status(500).json({ error: "Erro ao excluir os alunos!", detalhes: error.message });
   }
 };
 
@@ -69,7 +69,7 @@ const listarPorId = async (requisicao, resposta) => {
     }
     resposta.status(200).json(aluno);
   } catch (error) {
-    resposta.status(500).json({ error: "Erro ao deletar todos os usuarios" });
+    resposta.status(500).json({ error: "Erro ao deletar todos os usuarios", detalhes: error.message });
   }
 };
 
