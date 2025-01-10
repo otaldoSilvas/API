@@ -1,0 +1,2 @@
+### Rota para listar todos os alunos
+GET http://localhost:3001/api/aluno
