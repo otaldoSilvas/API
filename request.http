@@ -1,14 +1,32 @@
 ### Rota para listar todos os alunos
 GET http://localhost:3001/api/aluno
-
+Content-Type: application/json
 
 ### Cadastrar aluno
 POST http://localhost:3001/api/aluno/cadastrar
 Content-Type: application/json
 
 {
-    "nome": "João Silvas",
+    "nome": "João Silvas Editado",
     "notas": 85.5,
     "email": "joao.silva@gmail.com",
     "senha": "12345678"
 }
+### Editar aluno
+PUT http://localhost:3001/api/aluno/editar/1
+Content-Type: application/json
+
+{
+    "nome": "João Silvas Editado",
+    "notas": 70,
+    "email": "joao.silva@gmail.com",
+    "senha": "12345678"
+}
+
+### Deletar aluno
+DELETE http://localhost:3001/api/aluno/deletar/1
+Content-Type: application/json
+
+### Deletar todos os alunos
+DELETE http://localhost:3001/api/aluno/deletar
+Content-Type: application/json
