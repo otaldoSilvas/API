@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
-
-const sequelize = require("../../config/configDb");
+const bcrypt = require('bcrypt');
+const sequelize = require("../../../config/configDb");
 
 const Aluno = sequelize.define(
   "Aluno",
@@ -60,10 +60,6 @@ const Aluno = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: {
-          args: [7, 12],
-          msg: "O nome deve ter no mínimo 7 caracteres e no máximo 12",
-        },
         notEmpty: {
           msg: "A senha não pode ser vazia!",
         },
@@ -71,9 +67,31 @@ const Aluno = sequelize.define(
     },
   },
   {
-    sequelize,
-    modelName: "aluno",
-    timestamps: false,
-  }
-);
+    hooks: {
+      beforeCreate:
+        async (usuario) => {
+          if (usuario.senha) {
+            if (usuario.senha.length < 8 || usuario.senha.length > 15) {
+              throw new Error('A senha deve ser maior que 8 e menor que 15')
+            }
+            const salt = await bcrypt.gensalt(10);
+            usuario.senha = await bcrypt.hash(usuario.senha, salt);
+          }
+        },
+      beforeUpdate:
+        async (usuario) => {
+          if (usuario.changed('senha')) {
+            if (usuario.senha.length < 8 || usuario.senha.length > 15) {
+              throw new Error('A senha deve ser maior que 8 e menor que 15')
+            }
+          }
+          const salt = await bcrypt.gensalt(10);
+          usuario.senha = await bcrypt.hash(usuario.senha, salt);
+        }
+    },
+      sequelize,
+      modelName: "aluno",
+      timestamps: false
+    
+  });
 module.exports = Aluno;

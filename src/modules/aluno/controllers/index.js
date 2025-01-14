@@ -1,6 +1,29 @@
 const { where } = require("sequelize");
 const Aluno = require("../models/index");
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+// Login Aluno
+const login = async (requisicao, resposta) => {
+  try {
+    const { email,senha } = requisicao.body;
+    if(!email || !senha){
+      return resposta.status(400).json({msg: "É obrigatorio fornecer o email e a senha"})
+    }
+    const aluno  = await Aluno.findOne({where: email})
+    if(!aluno){
+      return resposta.status(401).json({msg: "Usuario não encontrado"})
+    }
+    const senhaValida = await bcrypt.compare(senha,aluno.senha)
+    if(!senhaValida){
+      return resposta.status(401).json({msg: "Senha Invalida"})
+    }
+    const token = jwt.sign({id: aluno.id, email: aluno.email}, process.env.SECRET_KEY, {expiresIn:'24h'})
+    resposta.status(200).json({msg: "Usuario autenticado!", token})
+  } catch (error) {
+    
+  }
+}
 // Listar alunos - read
 const listar = async (requisicao, resposta) => {
   try {

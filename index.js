@@ -1,7 +1,7 @@
 const express = require('express')
 const sequelize = require('./src/config/configDb')
-const route_aluno = require('./src/aluno/routes/index')
-const route_professor = require('./src/professor/routes/index')
+const route_aluno = require('./src/modules/aluno/routes/index')
+const route_professor = require('./src/modules/professor/routes/index')
 const app = express()
 const port = 3001
 
