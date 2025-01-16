@@ -10,13 +10,13 @@ const login = async (requisicao, resposta) => {
     if(!email || !senha){
       return resposta.status(400).json({msg: "É obrigatorio fornecer o email e a senha"})
     }
-    const aluno  = await Aluno.findOne({where: email})
+    const aluno  = await Aluno.findOne({where: {email}})
     if(!aluno){
       return resposta.status(401).json({msg: "Usuario não encontrado"})
     }
     const senhaValida = await bcrypt.compare(senha,aluno.senha)
     if(!senhaValida){
-      return resposta.status(401).json({msg: "Senha Invalida"})
+      return resposta.status(401).json({msg: "Senha Invalida", detalhas: erro.message});
     }
     const token = jwt.sign({id: aluno.id, email: aluno.email}, process.env.SECRET_KEY, {expiresIn:'24h'})
     resposta.status(200).json({msg: "Usuario autenticado!", token})
@@ -24,15 +24,6 @@ const login = async (requisicao, resposta) => {
     
   }
 }
-// Listar alunos - read
-const listar = async (requisicao, resposta) => {
-  try {
-    const alunos = await Aluno.findAll();
-    resposta.status(200).json(alunos);
-  } catch (error) {
-    resposta.status(500).json({ error: "Erro ao listar os alunos!", detalhes: error.message});
-  }
-};
 // Cadastrar alunos - create
 const criar = async (requisicao, resposta) => {
   try {
@@ -44,10 +35,10 @@ const criar = async (requisicao, resposta) => {
   }
 };
 
-const atualizar = async (requisicao, resposta) => {
+const atualizarPerfil = async (requisicao, resposta) => {
   try {
     // localhost:3000/api/aluno/1
-    const { id } = requisicao.params;
+    const id = requisicao.aluno.id;
     const { nome, email, notas, senha } = requisicao.body;
     const aluno = await Aluno.findByPk(id);
     if (!aluno) {
@@ -60,10 +51,10 @@ const atualizar = async (requisicao, resposta) => {
   }
 };
 
-const deletar = async (requisicao, resposta) => {
+const deletarPerfil = async (requisicao, resposta) => {
   try {
     // localhost:3000/api/aluno/1
-    const { id } = requisicao.params;
+    const id = requisicao.aluno.id;
     const aluno = await Aluno.findByPk(id);
     if (!aluno) {
       return resposta.status(404).json({ msg: "Usuario não encontrado!" });
@@ -75,18 +66,9 @@ const deletar = async (requisicao, resposta) => {
   }
 };
 
-const deletarTodos = async (requisicao, resposta) => {
+const listarPerfil = async (requisicao, resposta) => {
   try {
-    await Aluno.destroy({where: {}});
-    resposta.status(200).json({ msg: "Todos os alunos foram excluidos!" });
-  } catch (error) {
-    resposta.status(500).json({ error: "Erro ao excluir os alunos!", detalhes: error.message });
-  }
-};
-
-const listarPorId = async (requisicao, resposta) => {
-  try {
-    const { id } = requisicao.params;
+    const id  = requisicao.aluno.id;
     const aluno = await Aluno.findByPk(id);
     if (!aluno) {
       return resposta.status(404).json({ msg: "Usuario não encontrado!" });
@@ -97,4 +79,4 @@ const listarPorId = async (requisicao, resposta) => {
   }
 };
 
-module.exports = { listar, criar, atualizar, deletar, deletarTodos, listarPorId };
+module.exports = { criar, atualizarPerfil, deletarPerfil, listarPerfil, login };

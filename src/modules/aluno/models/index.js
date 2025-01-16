@@ -74,7 +74,7 @@ const Aluno = sequelize.define(
             if (usuario.senha.length < 8 || usuario.senha.length > 15) {
               throw new Error('A senha deve ser maior que 8 e menor que 15')
             }
-            const salt = await bcrypt.gensalt(10);
+            const salt = await bcrypt.genSalt(10);
             usuario.senha = await bcrypt.hash(usuario.senha, salt);
           }
         },
@@ -84,9 +84,9 @@ const Aluno = sequelize.define(
             if (usuario.senha.length < 8 || usuario.senha.length > 15) {
               throw new Error('A senha deve ser maior que 8 e menor que 15')
             }
+            const salt = await bcrypt.genSalt(10);
+            usuario.senha = await bcrypt.hash(usuario.senha, salt);
           }
-          const salt = await bcrypt.gensalt(10);
-          usuario.senha = await bcrypt.hash(usuario.senha, salt);
         }
     },
       sequelize,
