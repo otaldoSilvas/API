@@ -1,0 +1,39 @@
+### Rota para listar todos os alunos
+GET http://localhost:3001/api/aluno/perfil
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGdtYWlsLmNvbSIsImlhdCI6MTczNjk4NDkwNCwiZXhwIjoxNzM3MDcxMzA0fQ.2gyqM5LhSgIUM54RWi1XoectV1jOHH5ettKHBCt6SIM
+
+### Cadastrar aluno
+POST http://localhost:3001/api/aluno/cadastrar
+Content-Type: application/json
+
+{
+    "nome": "João Silvas",
+    "notas": 85.5,
+    "email": "joao.silva@gmail.com",
+    "senha": "12345678"
+}
+### Editar aluno
+PUT http://localhost:3001/api/aluno/perfil
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGdtYWlsLmNvbSIsImlhdCI6MTczNjk4NTM3OSwiZXhwIjoxNzM3MDcxNzc5fQ.GYexkOqPx_nCgzQCwmNdcGJuyBrUChcOQ0h9ljEbK70
+{
+    "nome": "João Silvas Editado",
+    "notas": 70,
+    "email": "joao.silva@gmail.com",
+    "senha": "12345678"
+}
+
+### Deletar aluno
+DELETE http://localhost:3001/api/aluno/perfil
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGdtYWlsLmNvbSIsImlhdCI6MTczNjk4NDkwNCwiZXhwIjoxNzM3MDcxMzA0fQ.2gyqM5LhSgIUM54RWi1XoectV1jOHH5ettKHBCt6SIM
+
+### Login do aluno
+POST http://localhost:3001/api/aluno/login
+Content-Type: application/json
+
+{
+    "email": "joao.silva@gmail.com",
+    "senha": "12345678"
+}
